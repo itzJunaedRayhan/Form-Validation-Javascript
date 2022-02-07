@@ -37,7 +37,7 @@ function nameValidate (name, FirstOrLast) {
     function validate () {
         let regName = /^[a-zA-Z]+$/;
         if (!regName.test(name.value.trim()) || name.value.trim().length < 3) {
-            userName.ErrorMessage(`Enter Your ${FirstOrLast}!`);
+            userName.ErrorMessage(`Your ${FirstOrLast}!`);
         } else {
             userName.SuccessMessage();
             return name.value.trim();
@@ -121,7 +121,7 @@ function passwordValidate (password) {
             passwordMessage.ErrorMessage('Password must not contain any whitespaces!');
         } 
         else if (!/^(?=.*[A-Z]).*$/.test(password.value.trim())) {
-            passwordMessage.ErrorMessage('The Password must contain at least one Uppercase character!');
+            passwordMessage.ErrorMessage('The Password must contain!');
         } 
         else if (!/^(?=.*[a-z])/.test(password.value.trim())) {
             passwordMessage.ErrorMessage('The Password must contain at least one Lowercase character!');
