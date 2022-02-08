@@ -124,7 +124,9 @@ i{
   border-radius: 18px;
   right: 15%;
   top: -25%;
-  /* top: -5%; */
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.8s ease;
 }
 
 .dialog span{

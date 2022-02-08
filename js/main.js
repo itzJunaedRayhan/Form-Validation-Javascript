@@ -1,14 +1,35 @@
-let firstName = document.querySelector(".firstName");
-let lastName  = document.querySelector(".lastName");
-let username  = document.querySelector(".username");
-let emailAddr = document.querySelector(".email");
-let phoneNum = document.querySelector(".phone");
-let password  = document.querySelector(".password");
+let firstName   = document.querySelector(".firstName");
+let lastName    = document.querySelector(".lastName");
+let username    = document.querySelector(".username");
+let emailAddr   = document.querySelector(".email");
+let phoneNum    = document.querySelector(".phone");
+let password    = document.querySelector(".password");
 let confirmPassword = document.querySelector(".confirmPassword");
-let terms     = document.querySelector(".terms");
-let submitBtn = document.querySelector(".submitBtn");
+let terms       = document.querySelector(".terms");
+let submitBtn   = document.querySelector(".submitBtn");
 let RegistrationForm = document.forms[0];
+let dialog      = document.querySelectorAll(".dialog"); 
+let info        = document.querySelectorAll(".info");
 
+//  Show details when mouse over in info:
+function displayDetails (event) {
+    event.nextElementSibling.style.visibility = "visible";
+    event.nextElementSibling.style.opacity = "1"
+    event.nextElementSibling.style.transition = "all 0.8s ease"
+}
+
+//  hide details when mouse out from info:
+function hideDetails (event) {
+    event.nextElementSibling.style.visibility = "hidden";
+    event.nextElementSibling.style.opacity = "1"
+    event.nextElementSibling.style.transition = "all 0.8s ease"
+}
+
+//  modify dialog and info style:
+function modifyDialogStyle () {
+    dialog[2].style.top = "-13%";
+    info[2].style.top = "20%";
+}
 
 
 //  Messages
@@ -63,8 +84,14 @@ function usernameValidate (userName) {
         let regExp = /^[a-zA-Z0-9_\.]+$/;
         if (!isUpperCase(userName.value.trim())) {
             usernameMessage.ErrorMessage(`Enter a valid username!`);
+            //  modify dialog style
+            dialog[0].style.top = "-13%";
+            info[0].style.top = "20%";
         } else if (!regExp.test(userName.value.trim()) || userName.value.trim().length < 3) {
             usernameMessage.ErrorMessage(`Enter a valid username!`);
+            //  modify dialog style
+            dialog[0].style.top = "-13%";
+            info[0].style.top = "20%";
         } else {
             usernameMessage.SuccessMessage();
             return userName.value.trim();
@@ -93,13 +120,16 @@ function emailValidate (email) {
 }
 
 
+
 //  Phone Number Validation
 function phoneNumValidate (phone) {
     function validate () {
         let regExp = /^\+?(88)?0(19|14|17|13|18|16|15)\d{8}$/;
         let phoneNumMessage = new Messages (phone);
         if (!regExp.test(phone.value)) {
-            phoneNumMessage.ErrorMessage(`Enter a Valid Phone Number!`)
+            phoneNumMessage.ErrorMessage(`Enter a Valid Phone Number!`);
+            dialog[1].style.top = "-13%";
+            info[1].style.top = "20%";
         } else {
             phoneNumMessage.SuccessMessage();
             return phone.value;
@@ -111,29 +141,37 @@ function phoneNumValidate (phone) {
 
 
 
+
 //  password validation
 function passwordValidate (password) {
     function validate () {
         let passwordMessage = new Messages (password);
         if (password.value.trim().length === 0) {
             passwordMessage.ErrorMessage('Enter Your Password');
+            modifyDialogStyle();
         } else if (/^(?=.*\s)/.test(password.value.trim())) {
             passwordMessage.ErrorMessage('Password must not contain any whitespaces!');
+            modifyDialogStyle()
         } 
         else if (!/^(?=.*[A-Z]).*$/.test(password.value.trim())) {
             passwordMessage.ErrorMessage('The Password must contain!');
+            modifyDialogStyle()
         } 
         else if (!/^(?=.*[a-z])/.test(password.value.trim())) {
             passwordMessage.ErrorMessage('The Password must contain at least one Lowercase character!');
+            modifyDialogStyle();
         } 
         else if (!/^(?=.*[0-9])/.test(password.value.trim())) {
             passwordMessage.ErrorMessage('The Password must contain at least one digit!');
+            modifyDialogStyle();
         } 
         else if (!/^(?=.*[~`!@#$%^&*()--+={}[]|\:;"'<>,.?])/.test(password.value.trim())) {
             passwordMessage.ErrorMessage('The Password must have at least one Special Symbol.');
+            modifyDialogStyle();
         } 
         else if (!/^.{8,16}$/.test(password.value.trim())) {
             passwordMessage.ErrorMessage('The Password must be 8-16 characters long.');
+            modifyDialogStyle();
         } else {
             passwordMessage.SuccessMessage();
             return password.value.trim();
@@ -142,6 +180,7 @@ function passwordValidate (password) {
     password.addEventListener('change', validate);
     return validate;
 }
+
 
 
 
@@ -165,6 +204,7 @@ function confirmPasswordValidate (confirmPass) {
 
 
 
+
 //  terms and condition validation
 function termsCondtionValidate (term) {
     function validate () {
@@ -179,6 +219,7 @@ function termsCondtionValidate (term) {
 }
 
 
+
 //  collect all the data after validation
 let FName       = nameValidate(firstName, 'First Name');
 let LName       = nameValidate(lastName, 'Last Name');
@@ -188,6 +229,8 @@ let passwordNum = passwordValidate(password);
 let confirmPass = confirmPasswordValidate(confirmPassword);
 let termsCondition = termsCondtionValidate(terms);
 let phoneNumber = phoneNumValidate(phoneNum);
+
+
 
 
 //  After Submit The Registratiion Form
@@ -210,6 +253,12 @@ RegistrationForm.addEventListener('submit', (event) => {
             button: "Close",
         });
     } else {
+        dialog[0].style.top = "-13%";
+        info[0].style.top = "20%";
+        dialog[1].style.top = "-13%";
+        info[1].style.top = "20%";
+        dialog[2].style.top = "-13%";
+        info[2].style.top = "20%";
         swal({
             title: "Sorry!",
             text: "Please Try Again Carefully",
@@ -217,4 +266,4 @@ RegistrationForm.addEventListener('submit', (event) => {
             button: "Close",
         });
     }
-})
+});
